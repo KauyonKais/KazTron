@@ -185,7 +185,7 @@ class ReadingCog(KazCog):
 
     weekdays=["Mon", "Tues", "Wed", "Thu", "Fri", "Sat", "Sun"]
     @reading.command(pass_context = True, ignore_extra = False)
-    async def planday(self, ctx: commands.Context, str: day, int: days=5):
+    async def planday(self, ctx: commands.Context, day: str, days: int=5):
         """
         Lists days in single messages for planning purposes.
         Takes a day (Mon, Tue, Wed, Thu, Fri, Sat, Sun) and a number as argument.
