@@ -182,8 +182,8 @@ class ReadingCog(KazCog):
                 rs = rs+"\n#{}: {}".format(idx, r)
             await self.bot.say(rs)
 
+    weekdays=["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
 
-    weekdays=["Mon", "Tues", "Wed", "Thu", "Fri", "Sat", "Sun"]
     @reading.command(pass_context = True, ignore_extra = False)
     async def planday(self, ctx: commands.Context, day: str, days: int=5):
         """
@@ -191,14 +191,24 @@ class ReadingCog(KazCog):
         Takes a day (Mon, Tue, Wed, Thu, Fri, Sat, Sun) and a number as argument.
         Will then list the amount of days starting with the specified day.
         """
-        if days > MAX_DAYS:
+        if day not in self.weekdays:
+            await self.bot.say("Sorry, I don't know that day.")
+            return
+        if days > self.MAX_DAYS:
             await self.bot.say("That is too many! Please don't do more than {} days!".format(MAXDAYS))
             return
-        d = weekdays.index(day)
+        if days < 1:
+            await self.bot.say("You need at least one day.")
+            return
+        m = await self.bot.say("Please wait while I set up the votes.")
+        d = self.weekdays.index(day)
         for i in range(d, d+days):
-            await self.bot.say(weekdays[i%7])
-
+            await self.bot.say(self.weekdays[i%7])
+        await self.bot.say("Please choose the days you are most likely to be able to make it to a "
+                           "reading.")
+        print(m)
+        await self.bot.delete_message(m)
 
 
 def setup(bot):
-	bot.add_cog(ReadingCog(bot))
+    bot.add_cog(ReadingCog(bot))
