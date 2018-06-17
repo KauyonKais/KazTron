@@ -41,7 +41,8 @@ class ReadingCog(KazCog):
         self.ch_reading = None
     
     current_session = None
-        
+
+    MAX_DAYS=10
     async def on_ready(self):
         self.ch_reading= self.bot.get_channel(self.config.get('reading', 'channel_reading'))
         if self.ch_reading is None:
@@ -180,6 +181,24 @@ class ReadingCog(KazCog):
             for idx, r in enumerate(self.current_session.readings, start=1):
                 rs = rs+"\n#{}: {}".format(idx, r)
             await self.bot.say(rs)
-        
+
+
+    weekdays=["Mon", "Tues", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    @reading.command(pass_context = True, ignore_extra = False)
+    async def planday(self, ctx: commands.Context, str: day, int: days=5):
+        """
+        Lists days in single messages for planning purposes.
+        Takes a day (Mon, Tue, Wed, Thu, Fri, Sat, Sun) and a number as argument.
+        Will then list the amount of days starting with the specified day.
+        """
+        if days > MAX_DAYS:
+            await self.bot.say("That is too many! Please don't do more than {} days!".format(MAXDAYS))
+            return
+        d = weekdays.index(day)
+        for i in range(d, d+days):
+            await self.bot.say(weekdays[i%7])
+
+
+
 def setup(bot):
 	bot.add_cog(ReadingCog(bot))

@@ -98,9 +98,7 @@ class VoiceLog(KazCog):
         valid_after = self.is_in_voice(after)
 
         if valid_before and valid_after:
-            msg = "{} has moved from voice channel {} to {}"\
-                .format(before.nick if before.nick else before.name,
-                        before.voice_channel.mention, after.voice_channel.mention)
+            msg = None
         elif valid_after:
             msg = "{} has joined voice channel {}"\
                 .format(after.nick if after.nick else after.name, after.voice_channel.mention)
