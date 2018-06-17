@@ -210,7 +210,7 @@ class ReadingCog(KazCog):
         await self.bot.delete_message(m)
 
     @reading.command(pass_context = True, ignore_extra = False)
-    async def plantime(self, ctx: commands.Context, desc: str=""):
+    async def plantime(self, ctx: commands.Context, *, desc: str=""):
         """
         Lists times from 12-20+later in 2 hour intervals, optional description.
         """
