@@ -218,8 +218,11 @@ class ReadingCog(KazCog):
             await self.bot.say("Times for {}:".format(desc))
         else:
             await self.bot.say("Reading times:")
-        for i in range(12, 18, 2):
-            await self.bot.say("{}-{}PM EST".format(i, i+2))
+        for i in range(12, 20, 2):
+            if i%12 is 0:
+                await self.bot.say("{}-{}PM EST".format(12, 2))
+            else:
+                await self.bot.say("{}-{}PM EST".format(i%12, (i%12)+2))
         await self.bot.say("Later")
 
 
