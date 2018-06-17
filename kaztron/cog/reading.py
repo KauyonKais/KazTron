@@ -191,7 +191,7 @@ class ReadingCog(KazCog):
         Takes a day (Mon, Tue, Wed, Thu, Fri, Sat, Sun) and a number as argument.
         Will then list the amount of days starting with the specified day.
         """
-        if day not in self.weekdays:
+        if day.capitalize() not in self.weekdays:
             await self.bot.say("Sorry, I don't know that day.")
             return
         if days > self.MAX_DAYS:
@@ -208,6 +208,19 @@ class ReadingCog(KazCog):
                            "reading.")
         print(m)
         await self.bot.delete_message(m)
+
+    @reading.command(pass_context = True, ignore_extra = False)
+    async def plantime(self, ctx: commands.Context, desc: str=""):
+        """
+        Lists times from 12-20+later in 2 hour intervals, optional description.
+        """
+        if desc:
+            await self.bot.say("Times for {}:".format(desc))
+        else:
+            await self.bot.say("Reading times:")
+        for i in range(12, 18, 2):
+            await self.bot.say("{}-{}PM EST".format(i, i+2))
+        await self.bot.say("Later")
 
 
 def setup(bot):
